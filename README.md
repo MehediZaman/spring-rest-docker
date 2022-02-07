@@ -12,6 +12,7 @@ spring-rest-docker - Consume the https://restcountries.com/v2 from Springboot ap
 3. The code must be covered by tests, unit and/or integration
 4. Code should be hosted on GitHub
 5. Make the application available as a service, using a docker image
+6. Caching mechanism can be used to avoid repeated requests 
 
 # REST Countries
 You can access API through https://restcountries.com/v2
