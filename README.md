@@ -15,4 +15,4 @@ spring-rest-docker - Consume the https://restcountries.com/v2 from Springboot ap
 6. Caching mechanism can be used to avoid repeated requests 
 
 # REST Countries
-You can access API through https://restcountries.com/v2
+You can access API through https://restcountries.com
