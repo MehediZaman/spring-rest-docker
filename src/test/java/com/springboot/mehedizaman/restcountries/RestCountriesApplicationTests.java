@@ -48,8 +48,8 @@ class RestCountriesApplicationTests {
     @ValueSource(strings = {"Western Europe", "Eastern Europe", "North America", "Northern Africa"})
     void testGetSubRegionCountriesDetails(String subregionName) throws UnsupportedEncodingException {
         List<Countries> countries = service.getSubRegionCountriesDetails(encodePathVariable (subregionName));
-//        System.out.println(List.of(countries));
-//        assert countries.get(0).toString().equals("CountriesBO [name=Colombia, capital=Bogotá, region=Americas, subregion=South America, population=50882884, area=1141748.0, borders=[BRA, ECU, PAN, PER, VEN]]");
+        System.out.println(List.of(countries));
+        assert !subregionName.equals("Western Europe") || countries.get(0).toString().equals("CountriesBO [name=Belgium, capital=Brussels, region=Europe, subregion=Western Europe, population=11555997, area=30528.0, borders=[FRA, DEU, LUX, NLD]]");
     }
 
     /**
