@@ -65,7 +65,7 @@ public class CountriesController {
      * @return JSON/CSV - Based on responseType parameter
      */
     @RequestMapping(value = "/tenbiggest/regionCountries/{regionName}", produces = "application/json")
-    public List<Countries> getTenBiggestCountiresInRegion(@PathVariable String regionName,
+    public List<Countries> getTenBiggestCountiresInRegion(@PathVariable("regionName") String regionName,
                                                             @RequestParam(required = false, defaultValue = "") String responseType, HttpServletResponse response) {
         List<Countries> list;
         if (responseType.equals("csv")) {
@@ -86,8 +86,8 @@ public class CountriesController {
      *                      Type. Default value "" its return JSON response
      * @return JSON/CSV - Based on responseType parameter
      */
-    @RequestMapping(value = "/regionalbloc/{subRegionName}", produces = "application/json")
-    public List<Countries> getCountiresInSubRegion(@PathVariable String subRegionName,
+    @RequestMapping(value = "/subregion/{subRegionName}", produces = "application/json")
+    public List<Countries> getCountiresInSubRegion(@PathVariable("subRegionName") String subRegionName,
                                                    @RequestParam(required = false, defaultValue = "") String responseType, HttpServletResponse response) {
         List<Countries> list;
         if (responseType.equals("csv")) {

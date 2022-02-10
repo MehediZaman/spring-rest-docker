@@ -10,8 +10,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.util.UriUtils;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,30 +73,34 @@ public class ServiceTest {
                 .andExpect(status().isOk()).andReturn();
     }
 
-    private static List<String> regionalBlocLists() {
-        return Arrays.asList("pa");
+    private static List<String> subRegionLists() {
+        return Arrays.asList("Western Europe", "Eastern Europe", "North America", "Northern Africa");
     }
 
-    @DisplayName("List of all countries of the determined Regional Bloc")
+    private String encodePathVariable (String subregionName) throws UnsupportedEncodingException {
+        return URLEncoder.encode(subregionName, StandardCharsets.UTF_8.name()).replaceAll("\\+","%20");
+    }
+
+    @DisplayName("List of all countries of the determined Subregion")
     @ParameterizedTest()
-    @MethodSource("regionalBlocLists")
+    @MethodSource("subRegionLists")
     public void testSubregionCountryList(String subRegion) throws Exception {
-        this.mockmvc.perform(MockMvcRequestBuilders.get("/regionalbloc/" + subRegion)).andDo(print()).andExpect(status().isOk()).andReturn();
+        this.mockmvc.perform(MockMvcRequestBuilders.get("/subregion/" + encodePathVariable(subRegion))).andDo(print()).andExpect(status().isOk()).andReturn();
     }
 
     @DisplayName("List of all countries of the determined subRegion - Csv Format")
     @ParameterizedTest()
-    @MethodSource("regionalBlocLists")
+    @MethodSource("subRegionLists")
     public void testSubregionCountryListCsv(String subRegion) throws Exception {
-        this.mockmvc.perform(MockMvcRequestBuilders.get("/regionalbloc/" + subRegion +"?responseType=csv")).andDo(print())
+        this.mockmvc.perform(MockMvcRequestBuilders.get("/subregion/" + encodePathVariable(subRegion) +"?responseType=csv")).andDo(print())
                 .andExpect(status().isOk()).andReturn();
     }
 
     @DisplayName("Returns the total population of sub-region countries")
     @ParameterizedTest()
-    @MethodSource("regionalBlocLists")
+    @MethodSource("subRegionLists")
     public void testgetSubRegionCountriesPopulation(String subRegion) throws Exception {
-        this.mockmvc.perform(MockMvcRequestBuilders.get("/regionalbloc/" + subRegion)).andDo(print())
+        this.mockmvc.perform(MockMvcRequestBuilders.get("/subregion/" + encodePathVariable(subRegion))).andDo(print())
                 .andExpect(status().isOk()).andReturn();
     }
 }

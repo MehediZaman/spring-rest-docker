@@ -24,7 +24,7 @@ public class CountriesServiceImpl implements CountriesService {
     @Override
     @Cacheable(value = "tenBiggestCountries")
     public List<Countries> getTenBiggestCountriesDetails() {
-        List<Countries> list = null;
+        List<Countries> list;
         list = CountryListObjMap.getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/all")));
         return SortJsonDataByArea.sortingJsonData(list);
     }
@@ -32,7 +32,7 @@ public class CountriesServiceImpl implements CountriesService {
     @Override
     @Cacheable(value = "TenBiggestRegionCountries", key = "#regionName")
     public List<Countries> getTenBiggestRegionCountriesDetails(String regionName) {
-        List<Countries> list = null;
+        List<Countries> list;
         list = CountryListObjMap
                 .getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/region/" + regionName)));
         return SortJsonDataByArea.sortingJsonData(list);
@@ -41,10 +41,10 @@ public class CountriesServiceImpl implements CountriesService {
     @Override
     @Cacheable(value = "TenRegionalBlocCountries", key = "#subRegionName")
     public List<Countries> getSubRegionCountriesDetails(String subRegionName) {
-        List<Countries> list = null;
-        List<Countries> sortedList = new ArrayList<Countries>();
+        List<Countries> list;
+        List<Countries> sortedList = new ArrayList<>();
         list = CountryListObjMap
-                .getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/regionalbloc/" + subRegionName)));
+                .getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/subregion/" + subRegionName)));
         for (Countries li : list) {
             if (li.getBorders().size() > 3) {
                 sortedList.add(li);
@@ -57,7 +57,7 @@ public class CountriesServiceImpl implements CountriesService {
     public String getPopulationSubRegionCountries(String subRegionName) {
         long totalPopulation = 0;
         List<Countries> list = CountryListObjMap
-                .getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/regionalbloc/" + subRegionName)));
+                .getMappedObj(UrlConnection.getConnection(RestCountriesURL.concat("/subregion/" + subRegionName)));
         for (Countries countries : list) {
             totalPopulation = (totalPopulation + countries.getPopulation());
         }
